@@ -1,3 +1,4 @@
+  {
   "name": "trillions",
   "version": "0.1.5",
   "description": "A sample Node.js app",
@@ -23,3 +24,4 @@
   "express"
   ],
   "license": "MIT"
+}
