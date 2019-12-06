@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 12px sans-serif;
+  margin: 0;
+}
+
+.line {
+  fill: none;
+  stroke: rgb(26, 72, 133);
+  stroke-width: 1.5px;
+}
+
+.area {
+  fill: #c9ca8f;
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 9, right: 11, bottom: 3, left: 11},
+    width = 900 - margin.left - margin.right,
+    height = 71 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%b %Y").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var area = d3.svg.area()
+    .x(function(d) { return x(d.date); })
+    .y0(height)
+    .y1(function(d) { return y(d.price); });
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.price); });
+
+d3.csv("stocks.csv", type, function(error, data) {
+
+  var symbols = d3.nest()
+      .key(function(d) { return d.symbol; })
+      .entries(data);
+
+  symbols.forEach(function(s) {
+    s.maxPrice = d3.max(s.values, function(d) { return d.price; });
+  });
+
+  x.domain([
+    d3.min(symbols, function(s) { return s.values[0].date; }),
+    d3.max(symbols, function(s) { return s.values[s.values.length - 1].date; })
+  ]);
+
+  var svg = d3.select("body").selectAll("svg")
+      .data(symbols)
+    .enter().append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("path")
+      .attr("class", "area")
+      .attr("d", function(d) { y.domain([0, d.maxPrice]); return area(d.values); });
+
+  svg.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { y.domain([0, d.maxPrice]); return line(d.values); });
+
+  // Label the symbol
+  svg.append("text")
+      .attr("x", width - 3)
+      .attr("y", height - 3)
+      .style("text-anchor", "end")
+      .text(function(d) { return d.key; });
+});
+
+function type(d) {
+  d.price = +d.price;
+  d.date = parseDate(d.date);
+  return d;
+}
+
+</script>

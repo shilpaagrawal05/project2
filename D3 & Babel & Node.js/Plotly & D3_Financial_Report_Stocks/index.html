@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Financial Plot</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <script src="https://unpkg.com/simple-statistics@5.0.0/dist/simple-statistics.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      background-color: grey;
+    }
+th, td {
+    text-align: left;
+    padding: 12px;
+}
+tbody>tr:nth-child(even){background-color: rgb(128, 124, 124), 107, 104) !important}
+tbody>tr:nth-child(odd){background-color: rgb(107, 107, 104) !important}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>
+        Alphabet Financial Report
+        <span id="report-date" style="float: right;">2017</span>
+      </h1>
+      <p></p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            Company Profile
+          </div>
+        </div>
+        <div class="company">
+          Alphabet is a holding company, with Google, the Internet media giant, as a wholly owned subsidiary. Google generates 99% of Alphabet revenue, of which more than 85% is from online ads. Google’s other revenue is from sales of apps and content on Google Play and YouTube, as well as cloud service fees and other licensing revenue. Sales of hardware such as Chromebooks, the Pixel smartphone, and smart homes products, which include Nest and Google Home, also contribute to other revenue. Alphabet’s moonshot investments are in its other bets segment, where it bets on technology to enhance health (Verily), faster Internet access to homes (Google Fiber), self-driving cars (Waymo), and more. Alphabet’s operating margin has been 25%-30%, with Google at 30% and other bets operating at a loss.
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Stock Performance
+          </div>
+        </div>
+        <div id="plot"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table id="summary-table" class="table table-striped table-inverse">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Open</th>
+              <th>High</th>
+              <th>Low</th>
+              <th>Close</th>
+              <th>Volume</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="plots.js"></script>
+</body>
+
+</html>
